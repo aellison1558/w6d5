@@ -1,7 +1,17 @@
-function FollowToggle($button) {
+function FollowToggle($button, options) {
   this.$button = $($button);
-  this.userId = this.$button.attr('data-user-id');
-  this.followState = this.$button.attr('data-initial-follow-state');
+  this.userId = this.$button.attr('data-user-id') || options.id;
+  this.followState = this.$button.attr('data-initial-follow-state') || options.followed;
+
+  if(options){
+    if(options.followed === true){
+      this.followState = "followed"
+    } else if (options.followed === false){
+      this.followState = "unfollowed"
+    }
+  }
+
+
   this.render();
   this.handleClick();
 }

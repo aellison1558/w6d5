@@ -1,3 +1,5 @@
+var FollowToggle = require('./follow_toggle.js');
+
 var UsersSearch = function ($search, $list) {
   this.$search = $search;
   this.$list = $list;
@@ -16,7 +18,7 @@ UsersSearch.prototype.handleInput = function (){
       dataType: 'json',
       data: {query: this.searchTerm},
       success: function(data){
-        alert(data);
+        this.renderResults(data);
       }.bind(this),
       error: function(){
         alert("failure");
@@ -24,6 +26,17 @@ UsersSearch.prototype.handleInput = function (){
     };
     $.ajax(ajaxOptions);
   }.bind(this))
+};
+
+UsersSearch.prototype.renderResults = function(data){
+  this.$list.empty();
+
+  data.forEach( function(e){
+    var output = $("<li><a href='/users/" + e.id + "'>" + e.username +
+    "</a></li> <button type='button' class='follow-toggle' name='" + e.username + "'></button>");
+    this.$list.append(output);
+    new FollowToggle($("button[name='" + e.username + "']"),e);
+  }.bind(this));
 };
 
 
