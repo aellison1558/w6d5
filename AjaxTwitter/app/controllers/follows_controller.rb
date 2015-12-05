@@ -4,6 +4,7 @@ class FollowsController < ApplicationController
   def create
     # simulate latency
     sleep(1)
+    puts params
 
     @follow = current_user.out_follows.create!(followee_id: params[:user_id])
 
